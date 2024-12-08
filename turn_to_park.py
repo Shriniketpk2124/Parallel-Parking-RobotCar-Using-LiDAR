@@ -1,31 +1,27 @@
 from gpiozero import Motor
 from time import sleep
 
-# Motor setup
 right_motor = Motor(17, 22, 18)
 left_motor = Motor(4, 24, 19)
 
 def check_and_turn():
     try:
-        # Step 1: Read the status from the file
-        with open("Task3_status.txt", "r") as file:  # Opens the file and automatically closes it after reading
+        with open("Task3_status.txt", "r") as file: 
             status = file.read().strip()
-        #print(f"Read status: {status}")
+        print(f"Read status: {status}")
 
-        # Step 2: Perform a right turn if the status is "Stop"
         if status == "Stop":
-            #print("Turning right...")
-            right_motor.forward(0)  # Right motor stationary
-            left_motor.forward(0.45)  # Left motor moves forward to create a right turn
-            sleep(0.5)  # Adjust this duration as needed for the right turn
+            print("Turning right...")
+            right_motor.forward(0) 
+            left_motor.forward(0.45) 
+            sleep(0.5)
             right_motor.stop()
             left_motor.stop()
-            #print("Right turn completed.")
+            print("Right turn completed.")
 
-            # Step 3: Update the status file to indicate the turn is completed
-            with open("Task3_status.txt", "w") as file:  # Opens in write mode and closes automatically
+            with open("Task3_status.txt", "w") as file:
                 file.write("Turn right completed")
-            #print("Written 'Turn right completed' to file.")
+            print("Written 'Turn right completed' to file.")
 
     except FileNotFoundError:
         print("Error: Task3_status.txt file not found. Please ensure the file exists.")
@@ -35,5 +31,4 @@ def check_and_turn():
         print('Stopping Interrupted.')
         quit()
 
-# Call the function
 check_and_turn()
